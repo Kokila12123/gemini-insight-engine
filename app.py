@@ -3,8 +3,6 @@ import pandas as pd
 import google.generativeai as genai
 
 # ---------------- CONFIG ----------------
-DEMO_MODE = True  # Set False when quota is available
-
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 st.set_page_config(
@@ -30,32 +28,10 @@ if uploaded_file is not None:
         st.dataframe(df.head())
 
         if st.button("Analyze with Gemini"):
-            with st.spinner("Analyzing data..."):
-                st.subheader("📊 Gemini Insights")
+            with st.spinner("Gemini is analyzing your data..."):
+                model = genai.GenerativeModel("gemini-1.5-pro")
 
-                if DEMO_MODE:
-                    st.markdown("""
-### 🔍 Key Trends
-- Sales increase steadily except for a sharp dip in March.
-- Return rates spike significantly in March.
-
-### ⚠️ Anomalies
-- March shows unusually high returns despite lower sales.
-- This deviates from the overall trend.
-
-### 🚨 Risks
-- Possible quality or logistics issues.
-- Risk of customer dissatisfaction.
-
-### ✅ Actionable Recommendations
-- Investigate March supply chain issues.
-- Add stricter quality checks.
-- Monitor returns weekly.
-""")
-                else:
-                    model = genai.GenerativeModel("models/gemini-3-flash-preview")
-
-                    prompt = f"""
+                prompt = f"""
 You are a senior data analyst.
 
 Analyze the following dataset:
@@ -71,8 +47,10 @@ Provide:
 Explain in simple language.
 """
 
-                    response = model.generate_content(prompt)
-                    st.write(response.text)
+                response = model.generate_content(prompt)
+
+                st.subheader("📊 Gemini Insights")
+                st.write(response.text)
 
     except Exception as e:
         st.error(f"Error reading file: {e}")
