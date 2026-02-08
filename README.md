@@ -22,7 +22,6 @@ Demo video: https://github.com/Kokila12123/gemini-insight-engine
 
 ## How to Run Locally
 1. Install dependencies:
-```bash
 pip install -r requirements.txt
 
 2.Run the application:
