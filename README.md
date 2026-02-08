@@ -26,7 +26,6 @@ Demo video: https://github.com/Kokila12123/gemini-insight-engine
 pip install -r requirements.txt
 
 2.Run the application:
-
 streamlit run app.py
 
 
